@@ -11,6 +11,7 @@ module.exports = {
     vendor: ['./vendor.ts']
   },
   output: {
+    path: path.resolve('./assets'),
     publicPath: '/',
     filename: '[name].js'
   },
