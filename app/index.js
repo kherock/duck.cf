@@ -13,10 +13,12 @@ exports.set('view engine', 'ejs');
 
 // Init webpack dev middleware
 if (exports.get('env') === 'development') {
-  const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackConfig = require('../config/webpack.dev');
-  const webpack = require('webpack')(webpackConfig);
-  exports.use(webpackDevMiddleware(webpack));
+  const compiler = require('webpack')(webpackConfig);
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  exports.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+  exports.use(webpackHotMiddleware(compiler));
 }
 
 exports.use('/', express.static('./assets'));

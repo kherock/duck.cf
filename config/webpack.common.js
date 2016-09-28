@@ -2,13 +2,13 @@
 
 const path = require('path');
 const { optimize, ContextReplacementPlugin } = require('webpack');
-const { ForkCheckerPlugin } = require('awesome-typescript-loader');
+const { ForkCheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
   context: path.resolve('./web'),
   entry: {
-    app: './bootstrap.ts',
-    vendor: './vendor.ts'
+    app: ['./bootstrap.ts'],
+    vendor: ['./vendor.ts']
   },
   output: {
     publicPath: '/',
@@ -27,7 +27,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new ForkCheckerPlugin(),
     new optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'vendor.js',
@@ -37,7 +36,9 @@ module.exports = {
         // The (\\|\/) piece accounts for path separators in *nix and Windows
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
         path.resolve('./web')
-    )
+    ),
+    new ForkCheckerPlugin(),
+    new TsConfigPathsPlugin()
   ],
   resolve: {
     extensions: ['.ts', '.js', '.json']

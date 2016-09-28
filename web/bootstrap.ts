@@ -1,9 +1,14 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootloader } from '@angularclass/hmr';
 
 import { DuckAppModule } from './app/module';
 
 if (ENVIRONMENT === 'production') enableProdMode();
 
-export default platformBrowserDynamic().bootstrapModule(DuckAppModule).
-    catch(err => console.error(err));
+export function main(): Promise<any> {
+  return platformBrowserDynamic().bootstrapModule(DuckAppModule).
+      catch(err => console.error(err));
+}
+
+bootloader(main);

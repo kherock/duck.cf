@@ -17,13 +17,15 @@
       "../node_modules/@types"
     ],
     "types": [
+      "lodash",
       "node",
+      "source-map",
+      "uglify-js",
       "webpack"
     ]
   },
   "exclude": [
-    "node_modules",
-    "assets"
+    "node_modules"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
