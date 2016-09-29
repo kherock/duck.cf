@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 @Injectable()
 export class DuckAPI {
@@ -7,7 +7,7 @@ export class DuckAPI {
 
   get(route: string) {
     const headers = new Headers();
-    headers.append('Accept', 'application/json,text/plain');
+    headers.append('Accept', 'application/json');
     return this.http.get(route, { headers });
   }
 }

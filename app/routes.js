@@ -33,7 +33,7 @@ exports.route('/').get((req, res) => {
                         '"'                       
   `.slice(1, -2);
   res.format({
-    'text/plain': () => res.send(duck),
-    'application/json': () => res.json({ ascii: duck })
+    text: () => res.send(duck),
+    json: () => res.json({ ascii: duck })
   });
 });

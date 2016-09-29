@@ -28,5 +28,10 @@ if (exports.get('env') === 'development') {
 }
 
 exports.use(express.static('./assets'));
-exports.use((req, res, next) => req.accepts('html') ? res.render('index') : next());
+exports.get('*', (req, res, next) => res.format({
+  text: () => next(),
+  json: () => next(),
+  html: () => res.render('index'),
+  default: () => res.sendStatus(406)
+}));
 exports.use((req, res, next) => require('./routes')(req, res, next));
