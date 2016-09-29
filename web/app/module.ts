@@ -6,15 +6,19 @@ import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 import { DuckApp } from './duck-app';
+import { DuckAscii } from './duck-ascii';
 import { NoContent } from './no-content';
 
 import { AppState } from './state';
 import { ROUTES } from './routes';
 
+import { DuckAPI } from './core/api';
+
 @NgModule({
   bootstrap: [DuckApp],
   declarations: [
     DuckApp,
+    DuckAscii,
     NoContent
   ],
   imports: [ // import Angular's modules
@@ -24,19 +28,24 @@ import { ROUTES } from './routes';
     RouterModule.forRoot(ROUTES)
   ],
   providers: [
-    AppState
+    AppState,
+    DuckAPI
   ]
 })
 export class DuckAppModule {
   constructor(public appRef: ApplicationRef, public appState: AppState) {}
 
   hmrOnInit(store) {
-    if (!store || !store.state) { return; }
+    if (!store || !store.state) {
+      return;
+    }
     console.log('HMR store', JSON.stringify(store, null, 2));
     // restore state
     this.appState.set(store.state);
     // restore input values
-    if ('restoreInputValues' in store) { store.restoreInputValues(); }
+    if ('restoreInputValues' in store) {
+      store.restoreInputValues();
+    }
     this.appRef.tick();
     Object.keys(store).forEach(prop => delete store[prop]);
   }
