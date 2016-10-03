@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '@angular/material';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 import { DuckApp } from './duck-app';
 import { DuckAscii } from './duck-ascii';
 import { NoContent } from './no-content';
+import { RanDuck } from './ran-d-uck';
 
 import { AppState } from './state';
 import { ROUTES } from './routes';
@@ -19,13 +21,15 @@ import { DuckAPI } from './core/api';
   declarations: [
     DuckApp,
     DuckAscii,
-    NoContent
+    NoContent,
+    RanDuck
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    MaterialModule.forRoot()
   ],
   providers: [
     AppState,

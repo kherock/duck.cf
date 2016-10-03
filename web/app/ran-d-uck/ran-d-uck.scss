@@ -1,0 +1,16 @@
+:host {
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  max-height: calc(100vh - 131px);
+  margin: auto;
+  display: block;
+}
+
+button {
+  background-color: lightcoral;
+  color: white;
+  margin: 8px;
+}
