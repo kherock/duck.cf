@@ -1,9 +1,25 @@
-:host {
+duck-app {
   display: block;
   height: 100%;
   overflow: auto;
 }
 
-h1 {
-  text-align: center;
+.toolbar-title {
+   position: absolute;
+   text-align: center;
+   line-height: 64px;
+   vertical-align: middle;
+   left: 0;
+   top: 0;
+   right: 0;
+   bottom: 0;
+}
+
+md-toolbar {
+   background-color: #4dd0e1;
+   position: relative;
+}
+
+button {
+   background-color: transparent;
 }

@@ -5,8 +5,9 @@ import { Component } from '@angular/core';
   template: `
     <img [src]="duckUrl">
     <div>
-        <button md-raised-button disableRipple color="primary" (click)="randuck()">Ran-d-uck</button>
+        <button md-raised-button (click)="randuck()">Ran-d-uck</button>
     </div>
+    <a routerLink="/ascii">How about an ascii duck?</a>
   `,
   styleUrls: ['ran-d-uck.scss']
 })
