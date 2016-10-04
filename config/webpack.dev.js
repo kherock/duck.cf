@@ -4,7 +4,7 @@ const { optimize, DefinePlugin, HotModuleReplacementPlugin, NamedModulesPlugin, 
 const merge = require('webpack-merge');
 
 module.exports = merge.smart(require('./webpack.common.js'), {
-  devtool: 'cheap-module-inline-source-map',
+  devtool: 'cheap-module-source-map',
   entry: {
     app: ['webpack-hot-middleware/client'],
     vendor: ['webpack-hot-middleware/client']

@@ -1,4 +1,10 @@
 :host {
   display: block;
+  flex: auto;
+  overflow: auto;
   text-align: center;
+}
+
+pre {
+  display: inline-block;
 }

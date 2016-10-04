@@ -4,7 +4,9 @@ import { AppState } from '../state';
 @Component({
   selector: 'ran-d-uck',
   template: `
-    <img [src]="duckUrl">
+    <div class="duck-container">
+        <img [src]="duckUrl">    
+    </div>
     <div>
         <button md-raised-button color="accent" (click)="randuck()">Ran-d-uck</button>
     </div>

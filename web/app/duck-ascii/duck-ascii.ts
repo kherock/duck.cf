@@ -11,4 +11,5 @@ export class DuckAscii {
   duckAscii = this.duckAPI.get('/').map((res: Response) => res.json().ascii);
 
   constructor(private duckAPI: DuckAPI) {}
+
 }

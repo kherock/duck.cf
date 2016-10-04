@@ -10,3 +10,4 @@ import '@angular/material';
 
 import 'lodash';
 import 'rxjs';
+import '!style!css!sass!./vendor.scss';
