@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
+import { AppState } from '../state';
 
 @Component({
   selector: 'ran-d-uck',
   template: `
     <img [src]="duckUrl">
     <div>
-        <button md-raised-button (click)="randuck()">Ran-d-uck</button>
+        <button md-raised-button color="accent" (click)="randuck()">Ran-d-uck</button>
     </div>
-    <a routerLink="/ascii">How about an ascii duck?</a>
   `,
   styleUrls: ['ran-d-uck.scss']
 })
@@ -22,9 +22,17 @@ export class RanDuck {
     'http://notyourmommascookie.com/wp-content/uploads/2012/02/confused-duck.jpg',
     'http://www.permacultureproject.com/wp-content/uploads/2011/01/Paranoid-Duck-large.jpg'
   ];
-  duckUrl: string = this.randuck();
+
+  get duckUrl(): string { return this.appState.get('duckUrl'); }
+  set duckUrl(value: string) { this.appState.set('duckUrl', value); }
+
+  constructor(private appState: AppState) {}
+
+  ngOnInit() {
+    this.randuck();
+  }
 
   randuck() {
-    return this.duckUrl = RanDuck.DUCK_URLS[Math.floor(Math.random() * RanDuck.DUCK_URLS.length)];
+    this.duckUrl = RanDuck.DUCK_URLS[Math.floor(Math.random() * RanDuck.DUCK_URLS.length)];
   }
 }

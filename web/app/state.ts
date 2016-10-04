@@ -3,10 +3,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { cloneDeep } from 'lodash';
 
 export interface State {
+  duckUrl: string
 }
 
 export class AppState {
-  private store = new BehaviorSubject<State>({ clicked: false });
+  private store = new BehaviorSubject<State>({ duckUrl: '' });
   changes = this.store.asObservable().distinctUntilChanged();
 
   get(prop?: string) {

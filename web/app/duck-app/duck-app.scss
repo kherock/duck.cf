@@ -1,25 +1,38 @@
+@import '~@angular/material/core/theming/all-theme';
+@import '../theme';
+
+@include md-core();
+@include angular-material-theme($theme);
+
 duck-app {
   display: block;
   height: 100%;
-  overflow: auto;
+
+  > md-sidenav-layout {
+    height: 100%;
+    overflow: auto;
+  }
 }
 
-.toolbar-title {
-   position: absolute;
-   text-align: center;
-   line-height: 64px;
-   vertical-align: middle;
-   left: 0;
-   top: 0;
-   right: 0;
-   bottom: 0;
+.app-toolbar {
+  position: relative;
+
+  .toolbar-title {
+     position: absolute;
+     text-align: center;
+     line-height: 64px;
+     vertical-align: middle;
+     left: 0;
+     top: 0;
+     right: 0;
+     bottom: 0;
+  }
 }
 
-md-toolbar {
-   background-color: #4dd0e1;
-   position: relative;
-}
+.app-nav {
+  width: 200px;
 
-button {
-   background-color: transparent;
+  a.active {
+    color: md-color($primary);
+  }
 }
