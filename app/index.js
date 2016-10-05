@@ -28,6 +28,10 @@ if (exports.get('env') === 'development') {
 }
 
 exports.use(express.static('./assets'));
+exports.get('*', (req, res, next) => {
+  console.log(req.url);
+  next();
+});
 exports.get('*', (req, res, next) => res.format({
   text: () => next(),
   json: () => next(),

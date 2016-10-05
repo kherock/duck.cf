@@ -3,6 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { bootloader } from '@angularclass/hmr';
 
 import { DuckAppModule } from './app/module';
+import './styles.scss';
 
 if (ENVIRONMENT === 'production') enableProdMode();
 

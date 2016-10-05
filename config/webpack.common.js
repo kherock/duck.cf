@@ -19,11 +19,25 @@ module.exports = {
     loaders: [{
       test: /\.ts$/,
       loaders: ['awesome-typescript?tsconfig=./web/tsconfig.json', 'angular2-template'],
+      exclude: [/\.(spec|e2e)\.ts$/]
     }, {
       test: /\.scss$/,
+      include: [path.resolve('./web/app')],
       loaders: ['raw', 'sass?sourceMap']
     }, {
-      test: /\.(html|css)$/,
+      test: /\.scss$/,
+      exclude: [path.resolve('./web/app')],
+      loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
+    }, {
+      test: /\.css$/,
+      include: [path.resolve('./web/app')],
+      loaders: ['raw', 'css?sourceMap']
+    }, {
+      test: /\.css$/,
+      exclude: [path.resolve('./web/app')],
+      loaders: ['style', 'css?sourceMap']
+    }, {
+      test: /\.html$/,
       loader: 'raw'
     }]
   },
@@ -42,6 +56,6 @@ module.exports = {
     new TsConfigPathsPlugin()
   ],
   resolve: {
-    extensions: ['.ts', '.js', '.json']
+    extensions: ['', '.ts', '.js', '.json']
   }
 };

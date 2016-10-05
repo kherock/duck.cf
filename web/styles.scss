@@ -1,0 +1,8 @@
+@import '~@angular/material/core/theming/all-theme';
+@import './app/theme';
+
+@include angular-material-theme($theme);
+
+html, body {
+  height: 100%;
+}
