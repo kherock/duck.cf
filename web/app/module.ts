@@ -8,6 +8,7 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 
 import { DuckApp } from './duck-app';
 import { DuckAscii } from './duck-ascii';
+import { DuckBlog, PostDialog } from './duck-blog';
 import { NoContent } from './no-content';
 import { RanDuck } from './ran-d-uck';
 
@@ -21,7 +22,9 @@ import { DuckAPI } from './core/api';
   declarations: [
     DuckApp,
     DuckAscii,
+    DuckBlog,
     NoContent,
+    PostDialog,
     RanDuck
   ],
   imports: [ // import Angular's modules
@@ -34,6 +37,10 @@ import { DuckAPI } from './core/api';
   providers: [
     AppState,
     DuckAPI
+  ],
+  entryComponents: [
+    DuckApp,
+    PostDialog
   ]
 })
 export class DuckAppModule {

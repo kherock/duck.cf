@@ -13,6 +13,9 @@ import { AppState } from '../state';
                 <a md-list-item routerLink="/ascii" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     ASCII ducks
                 </a>
+                <a md-list-item routerLink="/duck-blog" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    Duck Blog
+                </a>
             </md-nav-list>
         </md-sidenav>
         <div class="app-layout">
