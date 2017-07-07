@@ -1,40 +1,69 @@
-import { Component } from '@angular/core';
-import { AppState } from '../state';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Http } from '@angular/http';
+import { Subject } from 'rxjs/Rx';
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'ran-d-uck',
   template: `
-    <div class="duck-container">
-        <img [src]="duckUrl">    
-    </div>
-    <div>
-        <button md-raised-button color="accent" (click)="randuck()">Ran-d-uck</button>
+    <audio [src]="quackSrc" autoplay></audio>
+    <figure class="duck" *ngIf="duckUrl$ | async; let duckUrl">
+        <div [style.width]="duckUrl.width + 'px'">
+            <img #leDuck
+                [src]="duckUrl.url"
+                (click)="quack($event)">
+            <div [style.paddingBottom]="100 * duckUrl.height / duckUrl.width + '%'"></div>
+        </div>
+    </figure>
+    <div class="button-container">
+        <button md-raised-button
+            color="accent"
+            (click)="buttonClick$.next($event)">
+            Ran-d-uck
+        </button>
     </div>
   `,
   styleUrls: ['ran-d-uck.scss']
 })
 export class RanDuck {
-  static DUCK_URLS: string[] = [
-    'http://web.stanford.edu/dept/CTL/cgi-bin/academicskillscoaching/wp-content/uploads/2012/07/baby-duck.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/9/96/Domestic-crested-duck-CamdenME.jpg',
-    'http://i2.cdn.turner.com/cnnnext/dam/assets/130924135602-taiwan-duck-5-horizontal-large-gallery.jpg',
-    'http://luckyduckrescue.org/IMG_0049.jpg',
-    'http://c3405147.r47.cf0.rackcdn.com/waterfowlID/fullSize/1/blackbelliedwhistlingduck1.jpg',
-    'https://s-media-cache-ak0.pinimg.com/236x/aa/9f/62/aa9f62a5dedeb3dfe733362b3f0ee885.jpg',
-    'http://notyourmommascookie.com/wp-content/uploads/2012/02/confused-duck.jpg',
-    'http://www.permacultureproject.com/wp-content/uploads/2011/01/Paranoid-Duck-large.jpg'
-  ];
+  static DUCK_REDDIT = 'https://www.reddit.com/r/duck/.json?count=25';
 
-  get duckUrl(): string { return this.appState.get('duckUrl'); }
-  set duckUrl(value: string) { this.appState.set('duckUrl', value); }
+  buttonClick$ = new Subject();
+  duckUrl$ = Observable.of({ url: '' }).concat(this.buttonClick$.
+      switchMap(() => this.http.get(RanDuck.DUCK_REDDIT)).
+      map(res => res.json()).
+      map((json) => {
+        const posts = json.data.children.filter((post: any) => post.data.preview);
+        const post = posts[Math.floor(Math.random() * posts.length)].data.preview.images[0].source;
+        return post;
+      }));
+  quackSrc = 'assets/quack0.mp3';
 
-  constructor(private appState: AppState) {}
+  @ViewChild('leDuck') leDuck: ElementRef;
 
-  ngOnInit() {
-    this.randuck();
+  constructor(public http: Http) { }
+
+  ngAfterViewInit() {
+    this.buttonClick$.next();
   }
 
-  randuck() {
-    this.duckUrl = RanDuck.DUCK_URLS[Math.floor(Math.random() * RanDuck.DUCK_URLS.length)];
+  @HostListener('document: mousemove', ['$event.clientX', '$event.clientY'])
+  onmousemove(clientX: number, clientY: number) {
+    const dX = window.innerWidth / 2 - clientX;
+    const dY = window.innerHeight / 2 - clientY;
+    const distance = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+    const ratio = Math.atan(distance) / 64;
+    this.leDuck.nativeElement.style.transform = 'translate(' + (-dX * ratio) + 'px,' + (-dY * ratio) + 'px)';
+  }
+
+  quack({ clientX }: MouseEvent) {
+    // object-fit: contain; creates empty space around the img
+    const { offsetWidth, offsetHeight, naturalWidth, naturalHeight } = this.leDuck.nativeElement;
+    const padding = (offsetWidth - offsetHeight * naturalWidth / naturalHeight) / 2;
+    const rect = this.leDuck.nativeElement.getBoundingClientRect();
+    if (clientX < rect.left + padding || clientX > rect.left + rect.width - padding) return;
+
+    this.quackSrc = 'assets/quack' + (Math.floor(Math.random() * 3)) + '.mp3';
+    ga('send', 'event', 'Interaction', 'quack');
   }
 }

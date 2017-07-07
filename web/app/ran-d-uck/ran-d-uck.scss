@@ -1,19 +1,44 @@
+@import 'globals';
+
 :host {
-  flex: auto;
-  text-align: center;
+  position: relative;
+  background: url('https://media.giphy.com/media/3o6oznVqeKALBSJUcw/giphy.gif') 0/20%;
+  display: flex;
+  overflow: hidden;
 }
 
-.duck-container {
-  height: calc(100vh - 116px);
+.duck {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  > div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 img {
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  display: block;
+  @include object-fit(contain);
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-button {
-  margin: 8px;
+.button-container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  button {
+    margin: 8px;
+  }
 }

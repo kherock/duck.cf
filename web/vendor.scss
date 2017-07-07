@@ -1,3 +1,10 @@
-@import '~@angular/material/core/theming/all-theme';
+@import 'theme';
+@import '~normalize.css';
 
-@include md-core();
+@include mat-core();
+
+@include angular-material-theme($theme);
+
+.mat-dark-theme {
+  @include angular-material-theme($dark-theme);
+}

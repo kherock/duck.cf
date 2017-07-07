@@ -1,25 +1,30 @@
 'use strict';
 
-const { optimize, DefinePlugin, HotModuleReplacementPlugin, NamedModulesPlugin, NoErrorsPlugin } = require('webpack');
-const merge = require('webpack-merge');
+const path = require('path');
+const { NamedModulesPlugin } = require('webpack');
+const merge = require('webpack-merge').smartStrategy({ 'module.rules': 'prepend' });
 
-module.exports = merge.smart(require('./webpack.common.js'), {
+if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
+module.exports = merge(require('./webpack.common.js'), {
   devtool: 'cheap-module-eval-source-map',
-  entry: {
-    app: ['webpack-hot-middleware/client'],
-    vendor: ['webpack-hot-middleware/client']
+  devServer: {
+    overlay: true,
+    contentBase: false,
+    port: 9000
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.ts$/,
       loaders: ['@angularclass/hmr-loader']
-    }]
+    }, {
+      test: /\.scss$/,
+      rules: [{ use: ['style-loader?sourceRoot=webpack:///'], exclude: path.resolve(__dirname, '../web/app') }]
+    }, {
+      test: /\.css$/,
+      rules: [{ use: ['style-loader?sourceRoot=webpack:///'], exclude: path.resolve(__dirname, '../web/app') }]
+    }],
   },
   plugins: [
-    new optimize.OccurrenceOrderPlugin(),
-    new NamedModulesPlugin(),
-    new HotModuleReplacementPlugin(),
-    new NoErrorsPlugin(),
-    new DefinePlugin({ ENVIRONMENT: JSON.stringify('development') }),
+    new NamedModulesPlugin()
   ]
 });

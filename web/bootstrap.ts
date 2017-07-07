@@ -5,11 +5,12 @@ import { bootloader } from '@angularclass/hmr';
 import { DuckAppModule } from './app/module';
 import './styles.scss';
 
-if (ENVIRONMENT === 'production') enableProdMode();
+if (process.env.NODE_ENV === 'production') enableProdMode();
 
-export function main(): Promise<any> {
-  return platformBrowserDynamic().bootstrapModule(DuckAppModule).
-      catch(err => console.error(err));
+export async function main() {
+  try {
+    await platformBrowserDynamic().bootstrapModule(DuckAppModule);
+  } catch (err) { console.error(err); }
 }
 
 bootloader(main);

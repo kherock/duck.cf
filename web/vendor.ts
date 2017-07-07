@@ -1,13 +1,9 @@
 import 'core-js';
-
+import objectFitImages from 'object-fit-images';
 import 'reflect-metadata';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/long-stack-trace-zone';
+import 'web-animations-js';
+import 'zone.js';
 
-import '@angular/platform-browser';
-import '@angular/material';
+objectFitImages(null, { watchMQ: true });
 
-import 'lodash';
-import 'rxjs';
 import './vendor.scss';

@@ -1,1 +1,1 @@
-declare var ENVIRONMENT: string;
+declare const ga: (command: string, ...fields: any[]) => void;

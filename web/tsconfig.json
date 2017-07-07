@@ -1,38 +1,31 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "module": "es2015",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "typeRoots": [
+      "./@types",
+      "../node_modules/@types"
+    ],
+    "paths": {
+      "*": [
+        "@types/*"
+      ]
+    },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noImplicitAny": true,
     "strictNullChecks": false,
-    "baseUrl": "./",
-    "lib": [
-      "dom",
-      "es6"
-    ],
-    "typeRoots": [
-      "../node_modules/@types"
-    ],
-    "types": [
-      "hammerjs",
-      "lodash",
-      "node",
-      "source-map",
-      "uglify-js",
-      "webpack"
-    ]
+    "allowJs": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
-  },
+  "awesomeTypescriptLoaderOptions": {},
   "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": { "rewriteTsconfig": false }
+  "buildOnSave": false
 }

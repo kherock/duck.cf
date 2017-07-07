@@ -1,70 +1,71 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
-import { MaterialModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+
+import { MaterialModule } from './material';
 
 import { DuckApp } from './duck-app';
 import { DuckAscii } from './duck-ascii';
-import { DuckBlog, PostDialog } from './duck-blog';
+import { DuckChat } from './duck-chat';
 import { NoContent } from './no-content';
 import { RanDuck } from './ran-d-uck';
 
-import { AppState } from './state';
-import { ROUTES } from './routes';
+import * as coreProviders from './core';
 
-import { DuckAPI } from './core/api';
+const routes: Routes = [
+  { path: '', component: RanDuck },
+  { path: 'ascii', component: DuckAscii },
+  { path: 'duck-chat', component: DuckChat },
+  { path: '**', component: NoContent }
+];
 
 @NgModule({
-  bootstrap: [DuckApp],
   declarations: [
     DuckApp,
     DuckAscii,
-    DuckBlog,
+    DuckChat,
     NoContent,
-    PostDialog,
     RanDuck
   ],
-  imports: [ // import Angular's modules
+  imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES),
-    MaterialModule.forRoot()
+    MaterialModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [
-    AppState,
-    DuckAPI
+    ...Object.values(coreProviders)
   ],
-  entryComponents: [
-    DuckApp,
-    PostDialog
-  ]
+  entryComponents: [],
+  bootstrap: [DuckApp]
 })
 export class DuckAppModule {
-  constructor(public appRef: ApplicationRef, public appState: AppState) {}
+  constructor(public appRef: ApplicationRef) {}
 
-  hmrOnInit(store) {
-    if (!store || !store.state) {
-      return;
-    }
+  hmrOnInit(store: any) {
+    if (!store) return;
     console.log('HMR store', JSON.stringify(store, null, 2));
     // restore state
-    this.appState.set(store.state);
+    //if (!store.state) this.appState.set(store.state);
     // restore input values
-    if ('restoreInputValues' in store) {
-      store.restoreInputValues();
-    }
+    if ('restoreInputValues' in store) store.restoreInputValues();
     this.appRef.tick();
-    Object.keys(store).forEach(prop => delete store[prop]);
+    delete store.state;
+    delete store.restoreInputValues;
   }
 
-  hmrOnDestroy(store) {
+  hmrOnDestroy(store: any) {
     const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    const currentState = this.appState.get();
-    store.state = currentState;
+    //const currentState = this.appState.get();
+    //store.state = currentState;
     // recreate elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
     // save input values
@@ -73,7 +74,7 @@ export class DuckAppModule {
     removeNgStyles();
   }
 
-  hmrAfterDestroy(store) {
+  hmrAfterDestroy(store: any) {
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;

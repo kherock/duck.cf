@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { Response } from '@angular/http';
-import { DuckAPI } from '../core/api';
+import { Api } from '../core/api';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'duck-ascii',
-  template: `<pre>{{duckAscii | async}}</pre>`,
+  template: `<pre>{{duckAscii$ | async}}</pre>`,
   styleUrls: ['duck-ascii.scss']
 })
 export class DuckAscii {
-  duckAscii = this.duckAPI.get('/').map((res: Response) => res.json().ascii);
+  duckAscii$ = this.duckAPI.get('').map((res: any) => res.ascii);
 
-  constructor(private duckAPI: DuckAPI) {}
-
+  constructor(private duckAPI: Api) { }
 }

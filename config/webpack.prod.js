@@ -1,34 +1,30 @@
 'use strict';
 
-const path = require('path');
-const merge = require('webpack-merge');
-const { optimize, DefinePlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const merge = require('webpack-merge').smartStrategy({ 'module.rules': 'prepend' });
 
-const extractCss = new ExtractTextPlugin({
-  filename: '[name].css',
-  fallbackLoader: 'style'
-});
-
-module.exports = merge.smart(require('./webpack.common.js'), {
-  devtool: 'source-map',
-  output: {
-    devtoolModuleFilenameTemplate: info => 'webpack:///' + info.resource.replace('webpack:///~', '../~').replace('webpack:///', './')
-  },
+module.exports = merge(require('./webpack.common.js'), {
+  devtool: 'hidden-source-map',
   module: {
-    loaders: [{
+    rules: [{
       test: /\.scss$/,
-      exclude: [path.resolve('./web/app')],
-      loader: extractCss.extract(['css?sourceMap', 'sass?sourceMap'])
+      rules: [
+        { use: ['css-raw-loader?-sourceMap'], exclude: path.resolve(__dirname, '../web/app') },
+        { use: [ExtractTextPlugin.loader()], exclude: path.resolve(__dirname, '../web/app') },
+      ]
     }, {
       test: /\.css$/,
-      exclude: [path.resolve('./web/app')],
-      loader: extractCss.extract(['css?sourceMap', 'sass?sourceMap'])
+      rules: [
+        { use: ['css-raw-loader?-sourceMap'], exclude: path.resolve(__dirname, '../web/app') },
+        { use: [ExtractTextPlugin.loader()], exclude: path.resolve(__dirname, '../web/app') },
+      ]
     }]
   },
   plugins: [
-    extractCss,
-    new optimize.UglifyJsPlugin({ sourceMap: true }),
-    new DefinePlugin({ ENVIRONMENT: JSON.stringify('production') }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      fallback: 'style-loader'
+    })
   ]
 });

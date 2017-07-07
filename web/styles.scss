@@ -1,8 +1,39 @@
-@import '~@angular/material/core/theming/all-theme';
-@import './app/theme';
-
-@include angular-material-theme($theme);
 
 html, body {
   height: 100%;
+}
+
+// assume we want router outlets to fill the available space
+router-outlet + * {
+  flex: 1;
+}
+
+/* Material extensions */
+.mat-button,
+.mat-raised-button {
+  text-transform: uppercase;
+}
+
+.mat-icon {
+  &.material-icons::before {
+    content: attr(fonticon);
+  }
+
+  &.mdi::before {
+    font-size: 1em;
+  }
+
+  > svg {
+    vertical-align: top;
+  }
+}
+
+/* Material overrides */
+body {
+  .mat-dialog-actions {
+    margin-left: -24px;
+    margin-right: -24px;
+    padding: 12px;
+    justify-content: flex-end;
+  }
 }
