@@ -1,7 +1,9 @@
+const { flatten } = require('lodash');
+const compose = require('koa-compose');
 const Router = require('koa-router');
 
-const router = new Router();
-router.get('/', (ctx) => {
+const rootRouter = new Router();
+rootRouter.get('/', (ctx) => {
   const duck = `
       ,;MMMM..                                    
    ,;:MM"MMMMM.                                   
@@ -41,4 +43,7 @@ router.get('/', (ctx) => {
   }
 });
 
-module.exports = router.routes();
+module.exports = compose(flatten([
+  rootRouter,
+  // add other routers here
+].map(router => [router.routes(), router.allowedMethods()])));

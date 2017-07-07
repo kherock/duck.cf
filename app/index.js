@@ -43,7 +43,7 @@ if (exports.env === 'development') {
       ctx.body = response;
     } catch (err) { await next(); }
   }));
-  require('chokidar').watch(Object.keys(globs)).
+  require('chokidar').watch(Object.values(globs)).
       on('change', file => clearRequire(module, file)).
       on('unlink', file => clearRequire(module, file));
 }
@@ -70,7 +70,6 @@ exports.run = function () {
  */
 function clearRequire(root, file) {
   const minimatch = require('minimatch');
-
   const module = require.cache[path.resolve(file)];
   if (!module) return;
 
